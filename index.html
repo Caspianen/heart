@@ -14,6 +14,7 @@
       --orange-flame: #ffa500;
       --text-color: #8b008b;
       --shadow-color: rgba(0, 0, 0, 0.15);
+      --dark-pink: #e05090; /* Warna pink yang lebih gelap untuk detail */
     }
     body {
       margin: 0;
@@ -28,6 +29,60 @@
       position: relative;
       color: var(--text-color);
     }
+
+    /* Dekorasi Latar Belakang */
+    .background-decoration {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.6;
+      animation: floatAndFade 15s infinite ease-in-out;
+    }
+    .balloon {
+      width: 80px;
+      height: 100px;
+      background: linear-gradient(to top, #ff99cc, #ff66b2);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      box-shadow: inset -5px -5px 10px rgba(0,0,0,0.2);
+      position: absolute;
+      animation: floatAndFade 15s infinite ease-in-out;
+    }
+    .balloon::before {
+      content: '';
+      position: absolute;
+      width: 2px;
+      height: 50px;
+      background: #8b008b;
+      bottom: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .star {
+      font-size: 3em;
+      color: var(--gold-flame);
+      text-shadow: 0 0 10px var(--orange-flame);
+      animation: twinkle 2s infinite alternate, floatAndFade 10s infinite ease-in-out;
+    }
+    .glitter {
+      width: 5px;
+      height: 5px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 0 5px #fff;
+      animation: floatAndFade 10s infinite ease-in-out;
+    }
+
+    @keyframes floatAndFade {
+      0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.6; }
+      25% { transform: translateY(-20px) translateX(10px) rotate(5deg); opacity: 0.7; }
+      50% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.6; }
+      75% { transform: translateY(20px) translateX(-10px) rotate(-5deg); opacity: 0.7; }
+      100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.6; }
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
     h1 {
       font-family: 'Dancing Script', cursive;
       color: var(--primary-pink);
@@ -39,6 +94,7 @@
       animation: fadeInScale 2s ease forwards;
       animation-delay: 5.5s;
       letter-spacing: 2px;
+      z-index: 2; /* Pastikan di atas dekorasi latar belakang */
     }
     @keyframes fadeInScale {
       from { opacity: 0; transform: scale(0.8); }
@@ -51,6 +107,7 @@
       align-items: center;
       margin-top: 50px;
       perspective: 1000px;
+      z-index: 5; /* Pastikan di atas dekorasi latar belakang */
     }
     .tier {
       border-radius: 20px;
@@ -60,12 +117,14 @@
       margin-top: -20px;
       opacity: 0;
       transform: translateY(-300px) rotateX(15deg);
-      animation: dropAndBounce 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+      animation: dropAndBounce 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; /* Animasi lebih panjang */
       box-shadow: 0 10px 25px var(--shadow-color);
+      overflow: hidden; /* Untuk menampung sprinkles */
     }
     @keyframes dropAndBounce {
       0% { transform: translateY(-300px) rotateX(15deg); opacity: 0; }
-      70% { transform: translateY(20px) rotateX(0deg); opacity: 1; }
+      50% { transform: translateY(50px) rotateX(-5deg); opacity: 1; } /* Sedikit overshoot ke bawah */
+      75% { transform: translateY(-10px) rotateX(2deg); } /* Sedikit memantul ke atas */
       100% { transform: translateY(0) rotateX(0deg); opacity: 1; }
     }
     .tier-bottom { width: 300px; height: 150px; animation-delay: 0.2s; }
@@ -101,9 +160,38 @@
       70% { transform: scale(1.2); opacity: 1; }
       100% { transform: scale(1); opacity: 1; }
     }
+
+    /* Sprinkles */
+    .sprinkles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .sprinkle {
+      position: absolute;
+      width: 4px;
+      height: 10px;
+      background: var(--dark-pink);
+      border-radius: 2px;
+      opacity: 0;
+      animation: sprinkleFall 0.8s ease-out forwards;
+    }
+    .tier-bottom .sprinkle { animation-delay: 2.5s; }
+    .tier-middle .sprinkle { animation-delay: 2.7s; }
+    .tier-top .sprinkle { animation-delay: 2.9s; }
+
+    @keyframes sprinkleFall {
+      0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+      100% { transform: translateY(0) rotate(360deg); opacity: 1; }
+    }
+
     .candle {
       position: absolute;
-      top: -80px; /* Naikkan sedikit agar api pas di atas */
+      top: -80px;
       width: 30px;
       height: 80px;
       background: linear-gradient(to top, var(--cream-white), #f0f0f0);
@@ -124,7 +212,7 @@
     .candle:active { transform: scale(0.95); }
     .flame {
       position: absolute;
-      top: -40px; /* Posisi api tepat di atas lilin */
+      top: -40px;
       left: 50%;
       transform: translateX(-50%);
       width: 25px;
@@ -236,6 +324,17 @@
 </head>
 <body>
 
+  <!-- Dekorasi Latar Belakang -->
+  <div class="background-decoration balloon" style="top: 10%; left: 15%; animation-delay: 0s;"></div>
+  <div class="background-decoration balloon" style="top: 20%; right: 10%; animation-delay: 3s; transform: scale(0.8);"></div>
+  <div class="background-decoration star" style="top: 5%; left: 5%; animation-delay: 1s;">✨</div>
+  <div class="background-decoration star" style="top: 15%; right: 20%; animation-delay: 4s; transform: scale(0.7);">🌟</div>
+  <div class="background-decoration glitter" style="top: 30%; left: 25%; animation-delay: 2s;"></div>
+  <div class="background-decoration glitter" style="top: 40%; right: 5%; animation-delay: 5s;"></div>
+  <div class="background-decoration glitter" style="top: 50%; left: 10%; animation-delay: 0.5s;"></div>
+  <div class="background-decoration glitter" style="top: 60%; right: 15%; animation-delay: 3.5s;"></div>
+
+
   <h1>Happy Birthday, My Love! ❤️</h1>
 
   <div class="cake">
@@ -246,16 +345,19 @@
       <div class="cream">
         <span></span><span></span><span></span>
       </div>
+      <div class="sprinkles"></div>
     </div>
     <div class="tier tier-middle">
       <div class="cream">
         <span></span><span></span><span></span><span></span>
       </div>
+      <div class="sprinkles"></div>
     </div>
     <div class="tier tier-bottom">
       <div class="cream">
         <span></span><span></span><span></span><span></span><span></span>
       </div>
+      <div class="sprinkles"></div>
     </div>
     <button id="showLetterBtn" aria-label="Tampilkan surat cinta">Baca Surat Cinta</button>
   </div>
@@ -279,6 +381,7 @@
     const letterDiv = document.getElementById('letter');
     const creamDots = document.querySelectorAll('.cream span');
     const body = document.body;
+    const tiers = document.querySelectorAll('.tier');
 
     // Cream animation after cake drop
     window.addEventListener('load', () => {
@@ -289,22 +392,37 @@
           dot.style.animation = 'creamPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards';
         }, 2500 + i * 100);
       });
+
+      // Generate sprinkles after cake animation
+      tiers.forEach(tier => {
+        const sprinklesContainer = tier.querySelector('.sprinkles');
+        const numSprinkles = tier.classList.contains('tier-top') ? 15 : (tier.classList.contains('tier-middle') ? 25 : 35);
+        for (let i = 0; i < numSprinkles; i++) {
+          const sprinkle = document.createElement('div');
+          sprinkle.classList.add('sprinkle');
+          sprinkle.style.left = Math.random() * 100 + '%';
+          sprinkle.style.top = Math.random() * 100 + '%';
+          sprinkle.style.transform = `rotate(${Math.random() * 360}deg)`;
+          sprinkle.style.animationDelay = `${2.5 + Math.random() * 0.5}s`; // Delay after cake drop
+          sprinklesContainer.appendChild(sprinkle);
+        }
+      });
     });
 
     // Simple confetti effect with fewer emojis and less quantity
     function launchConfetti() {
-      const emojis = ['✨', '🌸', '💕'];
-      for (let i = 0; i < 20; i++) { // hanya 20 confetti
+      const emojis = ['✨', '🌸', '💕', '💖', '🎉']; // Tambah emoji
+      for (let i = 0; i < 30; i++) { // Tambah jumlah confetti
         const confetti = document.createElement('div');
         confetti.classList.add('confetti');
         confetti.textContent = emojis[Math.floor(Math.random() * emojis.length)];
         confetti.style.left = Math.random() * window.innerWidth + 'px';
-        confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-        confetti.style.animationDelay = (Math.random() * 0.5) + 's';
-        confetti.style.opacity = Math.random() * 0.5 + 0.5;
+        confetti.style.animationDuration = (Math.random() * 3 + 3) + 's'; // Durasi lebih panjang
+        confetti.style.animationDelay = (Math.random() * 0.8) + 's'; // Delay acak
+        confetti.style.opacity = Math.random() * 0.7 + 0.3; // Opacity lebih bervariasi
         confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
         body.appendChild(confetti);
-        setTimeout(() => confetti.remove(), 5000);
+        setTimeout(() => confetti.remove(), 6000); // Hapus setelah durasi animasi
       }
     }
 
@@ -334,3 +452,29 @@
 
 </body>
 </html>
+<!-- Dekorasi Latar Belakang -->
+<div class="background-decoration balloon" style="top: 10%; left: 15%; animation-delay: 0s;"></div>
+<div class="background-decoration balloon" style="top: 20%; right: 10%; animation-delay: 3s; transform: scale(0.8);"></div>
+<div class="background-decoration balloon" style="bottom: 15%; left: 5%; animation-delay: 6s; transform: scale(0.9);"></div>
+<div class="background-decoration balloon" style="bottom: 5%; right: 20%; animation-delay: 9s; transform: scale(0.75);"></div>
+
+<div class="background-decoration star" style="top: 5%; left: 5%; animation-delay: 1s;">✨</div>
+<div class="background-decoration star" style="top: 15%; right: 20%; animation-delay: 4s; transform: scale(0.7);">🌟</div>
+<div class="background-decoration star" style="bottom: 10%; left: 25%; animation-delay: 7s; transform: scale(0.85);">⭐</div>
+<div class="background-decoration star" style="top: 30%; left: 40%; animation-delay: 2s; transform: scale(0.6);">✨</div>
+<div class="background-decoration star" style="bottom: 20%; right: 30%; animation-delay: 5s; transform: scale(0.9);">🌟</div>
+
+<div class="background-decoration glitter" style="top: 30%; left: 25%; animation-delay: 2s;"></div>
+<div class="background-decoration glitter" style="top: 40%; right: 5%; animation-delay: 5s;"></div>
+<div class="background-decoration glitter" style="top: 50%; left: 10%; animation-delay: 0.5s;"></div>
+<div class="background-decoration glitter" style="top: 60%; right: 15%; animation-delay: 3.5s;"></div>
+<div class="background-decoration glitter" style="bottom: 40%; left: 30%; animation-delay: 1.5s;"></div>
+<div class="background-decoration glitter" style="bottom: 25%; right: 40%; animation-delay: 4.5s;"></div>
+<div class="background-decoration glitter" style="top: 10%; left: 60%; animation-delay: 2.5s;"></div>
+<div class="background-decoration glitter" style="bottom: 5%; left: 70%; animation-delay: 5.5s;"></div>
+
+ <div class="cake">
+  <!-- isi kue -->
+  <div class="cherry"></div>
+  <div class="cherry-stem"></div>
+</div>

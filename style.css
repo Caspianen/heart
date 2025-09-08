@@ -73,3 +73,86 @@
   from, to { border-color: transparent; }
   50% { border-color: var(--primary-pink); }
 }
+/* Dekorasi Latar Belakang */
+.background-decoration {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.6;
+  /* Animasi floatAndFade akan diterapkan secara individual melalui inline style */
+}
+.balloon {
+  width: 80px;
+  height: 100px;
+  background: linear-gradient(to top, #ff99cc, #ff66b2);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  box-shadow: inset -5px -5px 10px rgba(0,0,0,0.2);
+  position: absolute;
+  animation: floatAndFade 15s infinite ease-in-out; /* Animasi default */
+}
+.balloon::before {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 50px;
+  background: #8b008b;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.star {
+  font-size: 3em;
+  color: var(--gold-flame);
+  text-shadow: 0 0 10px var(--orange-flame);
+  animation: twinkle 2s infinite alternate, floatAndFade 10s infinite ease-in-out; /* Animasi default */
+}
+.glitter {
+  width: 5px;
+  height: 5px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 5px #fff;
+  animation: floatAndFade 10s infinite ease-in-out; /* Animasi default */
+}
+
+@keyframes floatAndFade {
+  0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.6; }
+  25% { transform: translateY(-20px) translateX(10px) rotate(5deg); opacity: 0.7; }
+  50% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.6; }
+  75% { transform: translateY(20px) translateX(-10px) rotate(-5deg); opacity: 0.7; }
+  100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.6; }
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.cake {
+  position: relative; /* pastikan posisi relatif agar ceri bisa diposisikan absolut */
+  /* properti lain kue */
+}
+
+/* Buah ceri */
+.cherry {
+  position: absolute;
+  top: 10px; /* sesuaikan posisi vertikal di atas kue */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 25px;
+  height: 25px;
+  background: radial-gradient(circle at 30% 30%, #ff1a1a, #b30000);
+  border-radius: 50%;
+  box-shadow: 0 0 5px #ff4d4d;
+  z-index: 10;
+}
+
+/* Batang ceri */
+.cherry-stem {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) rotate(-20deg);
+  width: 3px;
+  height: 20px;
+  background: linear-gradient(to top, #4d2600, #996633);
+  border-radius: 2px;
+  z-index: 9;
+}
