@@ -1,0 +1,123 @@
+body {
+  margin: 0;
+  height: 100vh;
+  background: #ffe6eb;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  font-family: 'Arial', sans-serif;
+}
+
+.cake {
+  position: relative;
+  bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Tier Kue */
+.tier {
+  border-radius: 20px;
+  background: pink;
+  border: 6px solid #ff99cc;
+  position: relative;
+  margin-top: -20px;
+  opacity: 0;
+  transform: translateY(-300px);
+  animation: drop 0.8s forwards;
+}
+
+/* Urutan benar: bawah paling besar → tengah → atas */
+.tier-bottom {
+  width: 280px;
+  height: 140px;
+  animation-delay: 0.2s;
+}
+.tier-middle {
+  width: 220px;
+  height: 120px;
+  animation-delay: 1s;
+}
+.tier-top {
+  width: 160px;
+  height: 100px;
+  animation-delay: 1.8s;
+}
+
+/* Cream */
+.cream {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  display: flex;
+  justify-content: space-evenly;
+  opacity: 0;
+  animation: fadeIn 0.8s forwards;
+}
+.tier-bottom .cream { animation-delay: 0.6s; }
+.tier-middle .cream { animation-delay: 1.4s; }
+.tier-top .cream { animation-delay: 2.2s; }
+
+.cream span {
+  width: 20px;
+  height: 20px;
+  background: #fff0f5;
+  border: 2px solid #ff99cc;
+  border-radius: 50%;
+}
+
+/* Lilin */
+.candle {
+  position: absolute;
+  top: -180px;
+  width: 20px;
+  height: 60px;
+  background: white;
+  border-radius: 5px;
+  opacity: 0;
+  animation: fadeIn 0.8s forwards;
+  animation-delay: 3s;
+}
+.flame {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 25px;
+  background: gold;
+  border-radius: 50%;
+  animation: flicker 0.3s infinite alternate;
+}
+
+/* Tulisan */
+.msg {
+  position: absolute;
+  top: -250px;
+  font-size: 32px;
+  font-weight: bold;
+  color: #d63384;
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+  animation-delay: 3.8s;
+}
+
+/* Animasi */
+@keyframes drop {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes flicker {
+  from { transform: scaleY(1); opacity: 1; }
+  to { transform: scaleY(1.2); opacity: 0.8; }
+}
